@@ -48,7 +48,7 @@ func main() {
 			if len(command) != 3 {
 				_, err := bot.Send(tgbotapi.NewMessage(update.Message.Chat.ID, "Команда некорректна"))
 				if err != nil {
-					fmt.Println(err)
+					log.Printf(err.Error())
 				}
 			}
 			amount, err := strconv.ParseFloat(command[2], 64)
@@ -66,20 +66,20 @@ func main() {
 			balanceText := fmt.Sprintf("%s %f", command[1], DB[update.Message.Chat.ID][command[1]])
 			_, err = bot.Send(tgbotapi.NewMessage(update.Message.Chat.ID, balanceText))
 			if err != nil {
-				fmt.Println(err)
+				log.Printf(err.Error())
 			}
 		case "SUB":
 			if len(command) != 3 {
 				_, err := bot.Send(tgbotapi.NewMessage(update.Message.Chat.ID, "Команда некорректна"))
 				if err != nil {
-					fmt.Println(err)
+					log.Printf(err.Error())
 				}
 			}
 			amount, err := strconv.ParseFloat(command[2], 64)
 			if err != nil {
 				_, err := bot.Send(tgbotapi.NewMessage(update.Message.Chat.ID, err.Error()))
 				if err != nil {
-					fmt.Println(err)
+					log.Printf(err.Error())
 				}
 				continue
 			}
@@ -90,7 +90,7 @@ func main() {
 				mesg := fmt.Sprintf("Недостаточно средств [%s = %f]", command[1], DB[update.Message.Chat.ID][command[1]])
 				_, err := bot.Send(tgbotapi.NewMessage(update.Message.Chat.ID, mesg))
 				if err != nil {
-					fmt.Println(err)
+					log.Printf(err.Error())
 				}
 				continue
 			}
@@ -98,13 +98,13 @@ func main() {
 			balanceText := fmt.Sprintf("%s %f", command[1], DB[update.Message.Chat.ID][command[1]])
 			_, err = bot.Send(tgbotapi.NewMessage(update.Message.Chat.ID, balanceText))
 			if err != nil {
-				fmt.Println(err)
+				log.Printf(err.Error())
 			}
 		case "DEL":
 			if len(command) != 2 {
 				_, err := bot.Send(tgbotapi.NewMessage(update.Message.Chat.ID, "Команда некорректна"))
 				if err != nil {
-					fmt.Println(err)
+					log.Printf(err.Error())
 				}
 			}
 			delete(DB[update.Message.Chat.ID], command[1])
@@ -120,12 +120,12 @@ func main() {
 			msg += fmt.Sprintf("Total: $%.2f [%.2f RUB]\n", summ, summ*rate)
 			_, err := bot.Send(tgbotapi.NewMessage(update.Message.Chat.ID, msg))
 			if err != nil {
-				fmt.Println(err)
+				log.Printf(err.Error())
 			}
 		default:
 			_, err := bot.Send(tgbotapi.NewMessage(update.Message.Chat.ID, "Команда не распознана"))
 			if err != nil {
-				fmt.Println(err)
+				log.Printf(err.Error())
 			}
 		}
 	}
@@ -134,7 +134,7 @@ func main() {
 func getPrice(symbol string) (price float64, err error) {
 	resp, err := http.Get(fmt.Sprintf("https://api.binance.com/api/v3/ticker/price?symbol=%sUSDT", symbol))
 	if err != nil {
-		fmt.Println(err)
+		log.Printf(err.Error())
 	}
 	defer resp.Body.Close()
 
@@ -154,7 +154,7 @@ func getPrice(symbol string) (price float64, err error) {
 func getRateRUB() (rate float64, err error) {
 	resp, err := http.Get("https://api.binance.com/api/v3/ticker/price?symbol=USDTRUB")
 	if err != nil {
-		fmt.Println(err)
+		log.Printf(err.Error())
 	}
 	defer resp.Body.Close()
 
