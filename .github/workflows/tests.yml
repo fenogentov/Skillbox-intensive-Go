@@ -3,7 +3,7 @@ name: Skillbox home works
 on:
   push:
     branches:
-      - hw*
+      - telegram*
 
 env:
   GO111MODULE: "on"
