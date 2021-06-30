@@ -16,6 +16,7 @@ type bnResp struct {
 	Price float64 `json:"price,string"`
 	Code  int64   `json:"code"`
 }
+
 type wallet map[string]float64
 
 var DB = map[int64]wallet{}
