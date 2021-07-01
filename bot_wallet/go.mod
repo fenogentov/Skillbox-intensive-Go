@@ -1,4 +1,4 @@
-module skillbox_intensive_go
+module github.com/fenogentov/Skillbox-intensive-Go/bot_wallet
 
 go 1.16
 
